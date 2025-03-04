@@ -1,21 +1,27 @@
->
+
 ### Date created
 2025-03-04
 
 ### Project Title
-US Bikeshare Data Analysis
+Bikeshare Data Explorer
 
 ### Description
-This project is an interactive Python application that analyzes US bikeshare data for three major cities: Chicago, New York City, and Washington. The program allows users to filter data by city, month, and day of the week. It then displays statistics on the most frequent times of travel, popular stations and trips, trip duration statistics, and user demographics. Additionally, users can opt to view raw data in increments of five rows.
+Bikeshare Data Explorer is an interactive Python application designed to analyze bikeshare usage in three major US cities: Chicago, New York City, and Washington. Users can filter the data by city, month, and day of the week to explore various aspects such as:
+- Most frequent travel times
+- Popular start and end stations
+- Trip duration statistics
+- User demographics
+
+The program also provides an option to display raw data in increments for a closer look at the dataset.
 
 ### Files used
-- **bikeshare.py** - Main Python script containing the application logic.
-- **chicago.csv** - Data file for Chicago bikeshare data.
-- **new_york_city.csv** - Data file for New York City bikeshare data.
-- **washington.csv** - Data file for Washington bikeshare data.
-- **README.md** - This README file.
+- **bikeshare.py**: Main Python script containing all the analysis logic.
+- **chicago.csv**: Dataset for Chicago bikeshare information.
+- **new_york_city.csv**: Dataset for New York City bikeshare information.
+- **washington.csv**: Dataset for Washington bikeshare information.
+- **README.md**: This file.
 
 ### Credits
-- Project inspired by the Udacity Bikeshare Data Analysis project.
-- Data provided by the respective city bikeshare programs.
-- Thanks to the Python, Pandas, and NumPy communities for their excellent tools and documentation.
+- Inspired by the Udacity Bikeshare Data Analysis project.
+- Data provided by the official bikeshare programs of Chicago, New York City, and Washington.
+- Special thanks to the Python, Pandas, and NumPy communities for their excellent tools and documentation.
