@@ -8,50 +8,42 @@ CITY_DATA = {
     'washington': '/mnt/data/washington.csv'
 }
 
-def get_valid_input(prompt, valid_options):
+def timeit(func):
     """
-    Prompts the user for input until a valid option is entered.
-    Converts the input to lowercase before checking.
-
-    Args:
-        prompt (str): The prompt to display to the user.
-        valid_options (iterable): A collection of valid string options.
-    
-    Returns:
-        str: A valid input chosen by the user.
+    Decorator that prints the runtime of the decorated function.
     """
-    while True:
-        user_input = input(prompt).lower()
-        if user_input in valid_options:
-            return user_input
-        print("Invalid input. Please choose from: " + ", ".join(valid_options))
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        print("\nThis took %s seconds." % (time.time() - start_time))
+        print('-' * 40)
+        return result
+    return wrapper
 
 def get_filters():
-    """
-    Asks user to specify a city, month, and day to analyze.
-    
-    Returns:
-        (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or "all" to apply no month filter
-        (str) day - name of the day of week to filter by, or "all" to apply no day filter
-    """
     print("Hello! Let's explore some US bikeshare data!")
     
-    city = get_valid_input(
-        "Would you like to see data for Chicago, New York City, or Washington? ",
-        list(CITY_DATA.keys())
-    )
-    
-    month = get_valid_input(
-        "Which month? January, February, March, April, May, June, or All? ",
-        ['january', 'february', 'march', 'april', 'may', 'june', 'all']
-    )
-    
-    day = get_valid_input(
-        "Which day? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, or All? ",
-        ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'all']
-    )
-    
+    # Input loops remain the same for simplicity
+    while True:
+        city = input("Would you like to see data for Chicago, New York City, or Washington? ").lower()
+        if city in CITY_DATA:
+            break
+        print("Invalid input. Please enter either Chicago, New York City, or Washington.")
+
+    months = ['january', 'february', 'march', 'april', 'may', 'june', 'all']
+    while True:
+        month = input("Which month? January, February, March, April, May, June, or All? ").lower()
+        if month in months:
+            break
+        print("Invalid input. Please enter a valid month or 'all'.")
+
+    days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'all']
+    while True:
+        day = input("Which day? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, or All? ").lower()
+        if day in days:
+            break
+        print("Invalid input. Please enter a valid day or 'all'.")
+
     print('-' * 40)
     return city, month, day
 
@@ -71,10 +63,10 @@ def load_data(city, month, day):
 
     return df
 
+@timeit
 def time_stats(df):
     print('\nCalculating The Most Frequent Times of Travel...\n')
-    start_time = time.time()
-
+    
     most_common_month = df['month'].mode()[0]
     print('Most Common Month:', most_common_month)
 
@@ -85,13 +77,10 @@ def time_stats(df):
     most_common_hour = df['hour'].mode()[0]
     print('Most Common Start Hour:', most_common_hour)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-' * 40)
-
+@timeit
 def station_stats(df):
     print('\nCalculating The Most Popular Stations and Trip...\n')
-    start_time = time.time()
-
+    
     most_common_start_station = df['Start Station'].mode()[0]
     print('Most Common Start Station:', most_common_start_station)
 
@@ -101,26 +90,20 @@ def station_stats(df):
     most_common_trip = df.groupby(['Start Station', 'End Station']).size().idxmax()
     print('Most Common Trip:', most_common_trip)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-' * 40)
-
+@timeit
 def trip_duration_stats(df):
     print('\nCalculating Trip Duration...\n')
-    start_time = time.time()
-
+    
     total_travel_time = df['Trip Duration'].sum()
     print('Total Travel Time:', total_travel_time)
 
     mean_travel_time = df['Trip Duration'].mean()
     print('Mean Travel Time:', mean_travel_time)
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-' * 40)
-
+@timeit
 def user_stats(df):
     print('\nCalculating User Stats...\n')
-    start_time = time.time()
-
+    
     user_types = df['User Type'].value_counts()
     print('User Types:\n', user_types)
 
@@ -136,9 +119,6 @@ def user_stats(df):
         print('Earliest:', earliest_year)
         print('Most Recent:', most_recent_year)
         print('Most Common:', most_common_year)
-
-    print("\nThis took %s seconds." % (time.time() - start_time))
-    print('-' * 40)
 
 def display_raw_data(df):
     row = 0
